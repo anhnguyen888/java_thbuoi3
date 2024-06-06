@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Category;
+import com.example.demo.model.CategoryImages;
 import com.example.demo.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -65,6 +66,11 @@ public class CategoryService {
             throw new IllegalStateException("Category with ID " + id + " does not exist.");
         }
         categoryRepository.deleteById(id);
+    }
+
+    public void addCategoryImage(CategoryImages categoryImage) {
+//        cateRepository.save(bookImage);
+
     }
 }
 

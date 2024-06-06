@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Category;
+import com.example.demo.model.CategoryImages;
+import com.example.demo.service.CategoryImageService;
 import com.example.demo.service.CategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -34,11 +36,21 @@ public class CategoryController {
 
     @Autowired
     private final CategoryService categoryService;
+    @Autowired
+    private CategoryImageService categoryImageService;
 
     @GetMapping("/categories/add")
     public String showAddForm(Model model) {
         model.addAttribute("category", new Category());
         return "/categories/add-category";
+    }
+
+    @GetMapping("/categories/{id}")
+    public String showCategory(@PathVariable Long id, Model model) {
+        Category category = categoryService.getCategoryById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid Id:" + id));
+        model.addAttribute("category", category);
+        return "/categories/show-category";
     }
 
 //    @PostMapping("/categories/add")
@@ -67,9 +79,25 @@ public class CategoryController {
             }
         }
         //luu nhieu hinh anh cua category
-
         //luu category
         categoryService.addCategory(category);
+
+        for (MultipartFile image : imageList) {
+            if (!image.isEmpty()) {
+                try {
+                    String imageUrl = saveImageStatic(image);
+                    CategoryImages categoryImage = new CategoryImages();
+                    categoryImage.setImagePath("/images/" +imageUrl);
+                    categoryImage.setCategory(category);
+                    category.getImages().add(categoryImage);
+                    categoryService.addCategoryImage(categoryImage);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+
         return "redirect:/categories";
     }
 

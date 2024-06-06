@@ -22,7 +22,11 @@
         <tbody>
         <tr th:each="category : ${categories}">
             <td th:text="${category.id}"></td>
-            <td th:text="${category.name}"></td>
+            <td>
+                <a th:text="${category.name}" th:href="@{/categories/{id}(id=${category.id})}" class="btn btn-success btn-sm">
+
+                </a>
+            </td>
             <td>
                 <img th:src="@{${category.thumnail}}" alt="Category Image" style="max-width: 100px; max-height: 100px;">
             </td>
