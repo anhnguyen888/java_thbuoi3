@@ -23,6 +23,7 @@ public class Category {
     @NotBlank(message = "Tên là bắt buộc")
     private String name;
 
+    //mot hinh anh dai dien
     private String thumnail;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)

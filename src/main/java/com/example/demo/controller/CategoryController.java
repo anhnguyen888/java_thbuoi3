@@ -69,7 +69,7 @@ public class CategoryController {
         if (result.hasErrors()) {
             return "/categories/add-category";
         }
-        //luu hinh dai dien
+        //luu 1 hinh dai dien
         if (!imageFile.isEmpty()) {
             try {
                 String imageName = saveImageStatic(imageFile);
@@ -90,7 +90,7 @@ public class CategoryController {
                     categoryImage.setImagePath("/images/" +imageUrl);
                     categoryImage.setCategory(category);
                     category.getImages().add(categoryImage);
-                    categoryService.addCategoryImage(categoryImage);
+                    categoryImageService.addCategoryImage(categoryImage);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -114,9 +114,6 @@ public class CategoryController {
         Files.copy(image.getInputStream(), pathFileUpload,
                 StandardCopyOption.REPLACE_EXISTING);
         return newFileName;
-
-
-
     }
 
     // Hiển thị danh sách danh mục
